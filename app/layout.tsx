@@ -24,6 +24,10 @@ export const metadata: Metadata = {
   description:
     "Experienced, reliable contractors specializing in home renovations in the Ottawa region.",
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
+  // Demo deployment — keep search engines off until the owner approves the
+  // redesign and the real site is decommissioned. Drop this block in PR 9
+  // (SEO polish) when go-live is approved.
+  robots: { index: false, follow: false, nocache: true },
 };
 
 export default function RootLayout({
