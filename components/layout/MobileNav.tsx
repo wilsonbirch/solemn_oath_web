@@ -87,7 +87,7 @@ export function MobileNav({
             transition: "opacity 300ms",
           }}
         />
-        {/* Panel — solid white bg, fully opaque, anchored to right edge. */}
+        {/* Panel — slide container. Each child paints its own bg directly. */}
         <div
           style={{
             position: "absolute",
@@ -98,13 +98,15 @@ export function MobileNav({
             flexDirection: "column",
             width: "100%",
             maxWidth: "22rem",
-            backgroundColor: "#fafaf7",
             boxShadow: "-8px 0 32px rgba(0,0,0,0.25)",
             transform: open ? "translateX(0)" : "translateX(100%)",
             transition: "transform 300ms",
           }}
         >
-          <div className="flex items-center justify-between border-b border-[color:var(--color-rule)] px-6 py-4">
+          <div
+            style={{ backgroundColor: "#fafaf7" }}
+            className="flex items-center justify-between border-b border-[color:var(--color-rule)] px-6 py-4"
+          >
             <span className="font-display text-lg">Menu</span>
             <button
               type="button"
@@ -115,7 +117,10 @@ export function MobileNav({
               <X aria-hidden className="h-5 w-5" />
             </button>
           </div>
-          <nav className="flex flex-col gap-1 px-4 py-6 text-lg">
+          <nav
+            style={{ backgroundColor: "#fafaf7", flex: "1 1 auto" }}
+            className="flex flex-col gap-1 px-4 py-6 text-lg"
+          >
             {links.map((link) => {
               const active =
                 pathname === link.href || (link.href !== "/" && pathname.startsWith(link.href));
@@ -136,7 +141,10 @@ export function MobileNav({
               );
             })}
           </nav>
-          <div className="mt-auto border-t border-[color:var(--color-rule)] px-6 py-6">
+          <div
+            style={{ backgroundColor: "#fafaf7" }}
+            className="mt-auto border-t border-[color:var(--color-rule)] px-6 py-6"
+          >
             <Link
               href={ctaHref}
               onClick={close}
