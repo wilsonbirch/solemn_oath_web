@@ -1,0 +1,67 @@
+@import "tailwindcss";
+
+/**
+ * Brand palette pulled from the existing solemnoathco.com Weebly site:
+ *   #323D3F  deep slate-green (current site's "why choose us" band)
+ *   #A9A99C  warm olive (current site's portfolio band)
+ *   #f1eeee  off-white background (current site's testimonials band)
+ *
+ * The new design pairs those with a clean editorial layout inspired by
+ * magnoliaconstruction.ca and lacasseconstruction.ca.
+ */
+
+:root {
+  --color-bg: #fafaf7;
+  --color-surface: #ffffff;
+  --color-ink: #1a1d1d;
+  --color-ink-muted: #5a605f;
+  --color-rule: #e5e3dd;
+  --color-brand: #2f3b3d;
+  --color-brand-soft: #4a5a5b;
+  --color-brand-warm: #a9a99c;
+  --color-accent: #c9a96a;
+}
+
+@theme inline {
+  --color-background: var(--color-bg);
+  --color-foreground: var(--color-ink);
+  --color-surface: var(--color-surface);
+  --color-ink: var(--color-ink);
+  --color-ink-muted: var(--color-ink-muted);
+  --color-rule: var(--color-rule);
+  --color-brand: var(--color-brand);
+  --color-brand-soft: var(--color-brand-soft);
+  --color-brand-warm: var(--color-brand-warm);
+  --color-accent: var(--color-accent);
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-fraunces), ui-serif, Georgia, serif;
+
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 1rem;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--color-brand);
+  color: white;
+}
+
+/* Display heading utility — used for hero/section titles */
+.font-display {
+  font-family: var(--font-display);
+  font-feature-settings: "ss01", "ss02";
+  letter-spacing: -0.01em;
+}
