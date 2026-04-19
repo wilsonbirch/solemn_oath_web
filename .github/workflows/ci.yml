@@ -1,0 +1,71 @@
+name: CI / Deploy
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  # Manual re-deploy from the Actions tab.
+  workflow_dispatch:
+
+# Cancel in-progress runs for the same branch when a new commit lands —
+# except for deploys, which are gated separately below.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Lint · Typecheck · Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Build
+        # NEXT_PUBLIC_* values are required at build time so lib/env.ts
+        # doesn't throw. Use safe placeholders for CI — actual deploys
+        # use values from fly.toml [build.args].
+        env:
+          NEXT_PUBLIC_SANITY_PROJECT_ID: ci-placeholder
+          NEXT_PUBLIC_SANITY_DATASET: production
+          NEXT_PUBLIC_SANITY_API_VERSION: "2024-10-01"
+          NEXT_PUBLIC_SITE_URL: http://localhost:3000
+        run: npm run build
+
+  deploy:
+    name: Deploy to Fly.io
+    runs-on: ubuntu-latest
+    needs: build
+    # Only deploy from main, never from PRs or other branches.
+    if: (github.event_name == 'push' && github.ref == 'refs/heads/main') || github.event_name == 'workflow_dispatch'
+    # Serialise deploys so two pushes don't race. Don't cancel —
+    # a half-deployed state is worse than a slightly delayed one.
+    concurrency:
+      group: deploy-fly
+      cancel-in-progress: false
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+
+      - name: Deploy
+        run: flyctl deploy --remote-only
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
