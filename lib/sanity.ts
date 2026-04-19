@@ -1,4 +1,4 @@
-import imageUrlBuilder from "@sanity/image-url";
+import { createImageUrlBuilder } from "@sanity/image-url";
 import type { SanityImageSource } from "@sanity/image-url";
 import { createClient } from "next-sanity";
 
@@ -12,7 +12,7 @@ export const sanityClient = createClient({
   perspective: "published",
 });
 
-const imageBuilder = imageUrlBuilder(sanityClient);
+const imageBuilder = createImageUrlBuilder(sanityClient);
 
 export function urlForImage(source: SanityImageSource) {
   return imageBuilder.image(source).auto("format").fit("max");
