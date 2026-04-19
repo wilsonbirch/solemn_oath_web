@@ -65,3 +65,14 @@ body {
   font-feature-settings: "ss01", "ss02";
   letter-spacing: -0.01em;
 }
+
+/* Mobile nav drawer surfaces — vanilla CSS so we don't depend on
+   Tailwind arbitrary-value resolution for the most demo-critical UI. */
+.mobile-nav-panel {
+  background-color: #fafaf7 !important;
+  background-image: none !important;
+  opacity: 1 !important;
+}
+.mobile-nav-backdrop {
+  background-color: rgba(0, 0, 0, 0.7) !important;
+}
