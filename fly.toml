@@ -7,6 +7,14 @@ app = 'solemn-oath'
 primary_region = 'yyz'
 
 [build]
+  # NEXT_PUBLIC_* must be set at Docker build time so they get inlined
+  # into the client JS bundle. See ARGs in Dockerfile.
+  # These are public values — safe to commit. Update via PR.
+  [build.args]
+    NEXT_PUBLIC_SANITY_PROJECT_ID = "2sg03x6i"
+    NEXT_PUBLIC_SANITY_DATASET = "production"
+    NEXT_PUBLIC_SANITY_API_VERSION = "2024-10-01"
+    NEXT_PUBLIC_SITE_URL = "https://solemn-oath.fly.dev"
 
 [http_service]
   internal_port = 3000
