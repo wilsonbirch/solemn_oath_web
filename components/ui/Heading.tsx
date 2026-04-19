@@ -15,16 +15,18 @@ export function Heading({
   display = true,
   className,
   children,
+  ...rest
 }: {
   as?: "h1" | "h2" | "h3" | "h4";
   level?: Level;
   display?: boolean;
   className?: string;
   children: React.ReactNode;
-}) {
+} & React.HTMLAttributes<HTMLHeadingElement>) {
   const Tag = (as ?? `h${level}`) as "h1" | "h2" | "h3" | "h4";
   return (
     <Tag
+      {...rest}
       className={cn(
         sizeStyles[level],
         display ? "font-display font-light leading-[1.05] tracking-tight" : "font-sans font-semibold leading-tight",
