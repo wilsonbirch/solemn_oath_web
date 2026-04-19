@@ -66,19 +66,22 @@ export function MobileNav({
           open ? "pointer-events-auto" : "pointer-events-none",
         )}
       >
-        {/* Backdrop */}
+        {/* Backdrop — darker so the panel reads as elevated. */}
         <div
           aria-hidden
           onClick={() => setOpen(false)}
           className={cn(
-            "absolute inset-0 bg-[color:var(--color-ink)]/40 transition-opacity duration-300",
+            "absolute inset-0 bg-black/60 transition-opacity duration-300",
             open ? "opacity-100" : "opacity-0",
           )}
         />
-        {/* Panel */}
+        {/* Panel — hardcoded brand bg via inline style so we never run
+            into Tailwind arbitrary-value rendering quirks on mobile
+            browsers. Solid, opaque, full-height. */}
         <div
+          style={{ backgroundColor: "#fafaf7" }}
           className={cn(
-            "absolute right-0 top-0 flex h-full w-full max-w-sm flex-col bg-[color:var(--color-bg)] shadow-2xl transition-transform duration-300",
+            "absolute right-0 top-0 flex h-full w-full max-w-sm flex-col shadow-2xl transition-transform duration-300",
             open ? "translate-x-0" : "translate-x-full",
           )}
         >
