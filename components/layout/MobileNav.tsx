@@ -61,29 +61,48 @@ export function MobileNav({
         role="dialog"
         aria-modal="true"
         aria-label="Site navigation"
-        className={cn(
-          "fixed inset-0 z-50 lg:hidden",
-          open ? "pointer-events-auto" : "pointer-events-none",
-        )}
+        // All critical positioning + bg via inline style — earlier
+        // versions relied on Tailwind utilities that weren't reliably
+        // compiling on mobile, leaving the panel transparent.
+        style={{
+          position: "fixed",
+          top: 0,
+          right: 0,
+          bottom: 0,
+          left: 0,
+          zIndex: 100,
+          pointerEvents: open ? "auto" : "none",
+        }}
+        className="lg:hidden"
       >
-        {/* Backdrop — darker so the panel reads as elevated. */}
+        {/* Backdrop */}
         <div
           aria-hidden
           onClick={() => setOpen(false)}
-          className={cn(
-            "absolute inset-0 bg-black/60 transition-opacity duration-300",
-            open ? "opacity-100" : "opacity-0",
-          )}
+          style={{
+            position: "absolute",
+            inset: 0,
+            backgroundColor: "rgba(0, 0, 0, 0.7)",
+            opacity: open ? 1 : 0,
+            transition: "opacity 300ms",
+          }}
         />
-        {/* Panel — hardcoded brand bg via inline style so we never run
-            into Tailwind arbitrary-value rendering quirks on mobile
-            browsers. Solid, opaque, full-height. */}
+        {/* Panel — solid white bg, fully opaque, anchored to right edge. */}
         <div
-          style={{ backgroundColor: "#fafaf7" }}
-          className={cn(
-            "absolute right-0 top-0 flex h-full w-full max-w-sm flex-col shadow-2xl transition-transform duration-300",
-            open ? "translate-x-0" : "translate-x-full",
-          )}
+          style={{
+            position: "absolute",
+            top: 0,
+            right: 0,
+            bottom: 0,
+            display: "flex",
+            flexDirection: "column",
+            width: "100%",
+            maxWidth: "22rem",
+            backgroundColor: "#fafaf7",
+            boxShadow: "-8px 0 32px rgba(0,0,0,0.25)",
+            transform: open ? "translateX(0)" : "translateX(100%)",
+            transition: "transform 300ms",
+          }}
         >
           <div className="flex items-center justify-between border-b border-[color:var(--color-rule)] px-6 py-4">
             <span className="font-display text-lg">Menu</span>
